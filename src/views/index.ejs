@@ -1,0 +1,29 @@
+<%- include('includes/head'); %>
+<%- include('includes/nav'); %>
+
+<div class="container d-flex flex-column align-items-center" style="min-height: 100vh; margin-top: 20px;">
+    <div class="w-100" style="max-width: 80%;">
+        <!-- Botão: Adicionar novo pedido -->
+        <a href="/pedido/cadastro" class="btn btn-success d-flex justify-content-center align-items-center mb-3" style="width: 100%; height: 60px; font-size: 1.25rem;">
+            Adicionar novo pedido
+        </a>
+
+        <!-- Botão: Ver todos os pedidos -->
+        <a href="/pedidos" class="btn btn-danger d-flex justify-content-center align-items-center mb-3" style="width: 100%; height: 60px; font-size: 1.25rem;">
+            Ver todos os pedidos
+        </a>
+
+        <!-- Botão: Ver pedidos em produção 
+        <a href="/pedidos/status+'1'"     class="btn btn-warning d-flex justify-content-center align-items-center mb-3" style="width: 100%; height: 60px; font-size: 1.25rem;">
+            Ver pedidos em produção
+        </a>  -->
+
+        <!-- Botão: Ver pedidos aguardando retirada 
+        <a href="/pedidos/status+'2'" class="btn btn-primary d-flex justify-content-center align-items-center mb-3" style="width: 100%; height: 60px; font-size: 1.25rem;">
+            Ver pedidos aguardando retirada
+        </a>-->
+
+    </div>
+</div>
+
+<%- include('includes/footer'); %>

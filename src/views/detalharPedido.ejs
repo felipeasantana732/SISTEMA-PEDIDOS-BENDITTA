@@ -1,0 +1,64 @@
+<%- include('includes/head'); %>
+<%- include('includes/nav'); %>
+
+<!-- Adicione este código no início da sua view para mostrar mensagens de erro -->
+<% if (errors.length > 0) { %>
+    <div class="alert alert-danger">
+        <% errors.forEach(function(error) { %>
+            <p><%= error %></p>
+        <% }); %>
+    </div>
+<% } %>
+
+<!-- Exibir mensagens de sucesso -->
+<% if (success.length > 0) { %>
+    <div class="alert alert-success">
+        <% success.forEach(function(message) { %>
+            <p><%= message %></p>
+        <% }); %>
+    </div>
+<% } %>
+
+<!-- O resto do código da sua view -->
+
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Detalhes do Pedido</h2>
+        <button id="imprimirPedidoBtn" type="button" class="btn btn-success">
+            <i class="fas fa-print"></i> Imprimir
+        </button>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <p><strong>ID do Pedido:</strong> <%= pedido.pedidoId %></p>
+            <p><strong>Nome do Cliente:</strong> <%= pedido.cliente %></p>
+            <p><strong>Endereço:</strong> <%= pedido.endereco %></p>
+            <p><strong>Telefone:</strong> <%= pedido.telefone %></p>
+            <p><strong>Data do Pedido:</strong> <%= new Date(pedido.data).toLocaleDateString() %> <%= new Date(pedido.data).toLocaleTimeString() %></p>
+            <p><strong>Status:</strong> <%= pedido.status %></p>
+        </div>
+    </div>
+
+    <h3>Pizzas</h3>
+    <% pedido.pizzas.forEach((pizza, index) => { %>
+        <div class="pizza border p-3 mb-3">
+            <h5>Pizza <%= index + 1 %></h5>
+            <ul>
+                <% pizza.sabores.forEach((sabor, index) => { %>
+                    <li><strong>Sabor:</strong> <%= sabor.sabor %></li>
+                    <% if (sabor.observacao) { %>
+                        <li><strong>Observação:</strong> <%= sabor.observacao %></li>
+                    <% } %>
+                <% }); %>
+            </ul>
+        </div>
+    <% }); %>
+
+    <div class="mt-4">
+        <a href="/pedidos" class="btn btn-secondary">Voltar para a Lista de Pedidos</a>
+    </div>
+</div>
+
+<%- include('includes/footerListaPedidos'); %>

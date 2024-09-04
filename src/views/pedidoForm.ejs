@@ -1,0 +1,62 @@
+<%- include('includes/head'); %>
+<%- include('includes/nav'); %>
+
+<form id="pedidoForm" action="/pedido/cadastro" method="POST" class="container mt-4">
+    
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <div class="form-group">
+        <label for="cliente">Nome do Cliente</label>
+        <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Digite o nome do cliente" required>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="endereco">Endereço do Cliente</label>
+        <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Digite o endereço do cliente" required>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="telefone">Telefone do Cliente</label>
+        <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Digite o telefone do cliente" required>
+    </div>
+
+    <div id="pizzas-container" class="mt-4">
+        <div class="pizza border p-3 mb-3" data-index="0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Pizza 1</h5>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="sabor-esquerda-0">Sabor (metade esquerda)</label>
+                    <select class="form-control" name="sabores[0][saborEsquerda]" required>
+                        <option value="" disabled selected>Escolha o sabor</option>
+                        <% sabores.forEach(sabor => { %>
+                            <option value="<%= sabor.nome %>"><%= sabor.nome %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="sabor-direita-0">Sabor (metade direita)</label>
+                    <select class="form-control" name="sabores[0][saborDireita]">
+                        <option value="" disabled selected>Escolha o sabor (opcional)</option>
+                        <% sabores.forEach(sabor => { %>
+                            <option value="<%= sabor.nome %>"><%= sabor.nome %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="observacao-0">Observação</label>
+                <input type="text" class="form-control" name="sabores[0][observacao]" placeholder="Observação (opcional)">
+            </div>
+            <button type="button" class="btn btn-success btn-sm mt-2 adicionar-pizza" title="Adicionar outra pizza">+</button>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-between mt-3">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Finalizar pedido</button>
+    </div>
+</form>
+
+<%- include('includes/footerPedidoForm'); %>

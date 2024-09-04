@@ -1,0 +1,54 @@
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Script carregado e DOM pronto'); // Confirma que o script está carregado e o DOM está pronto
+    
+        let pizzaCount = 1; // Contador para pizzas
+    
+        // Função para adicionar uma nova pizza
+        function adicionarPizza() {
+            pizzaCount++; // Incrementar o contador de pizzas
+            console.log('Adicionando pizza:', pizzaCount); // Confirma a adição de uma nova pizza
+    
+            const pizzaDiv = document.createElement('div');
+            pizzaDiv.classList.add('pizza', 'border', 'p-3', 'mb-3');
+            pizzaDiv.setAttribute('data-index', pizzaCount);
+    
+            pizzaDiv.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Pizza ${pizzaCount}</h5>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="sabor-esquerda-${pizzaCount}">Sabor (metade esquerda)</label>
+                        <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][saborEsquerda]" placeholder="Escolha o sabor" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sabor-direita-${pizzaCount}">Sabor (metade direita, opcional)</label>
+                        <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][saborDireita]" placeholder="Escolha o sabor (opcional)">
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="observacao-${pizzaCount}">Observação</label>
+                    <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][observacao]" placeholder="Observação (opcional)">
+                </div>
+                <button type="button" class="btn btn-success btn-sm mt-2 adicionar-pizza" title="Adicionar outra pizza">+</button>
+            `;
+    
+            document.getElementById('pizzas-container').appendChild(pizzaDiv);
+        }
+    
+        // Adiciona um listener ao clique dos botões "+"
+        document.getElementById('pizzas-container').addEventListener('click', function(event) {
+            if (event.target.classList.contains('adicionar-pizza')) {
+                console.log('Botão "+" clicado'); // Confirma o clique no botão "+"
+                adicionarPizza();
+            }
+        });
+    });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

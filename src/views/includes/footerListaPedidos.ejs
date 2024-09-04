@@ -1,0 +1,49 @@
+<script>
+    function imprimirPedido(pedidoId) {
+      fetch(`/pedido/imprimir/${pedidoId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Pedido enviado para impressão!');
+        } else {
+          alert('Erro ao enviar pedido para impressão.');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
+    }
+
+    document.getElementById('imprimirPedidoBtn').addEventListener('click', function() {
+        const pedidoId = '<%= pedido.pedidoId %>'; // Obtém o ID do pedido da view
+        console.log("BOTAO CLICADO")
+        imprimirPedido(pedidoId);
+    });
+
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
