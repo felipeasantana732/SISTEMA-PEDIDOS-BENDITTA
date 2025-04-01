@@ -1,6 +1,6 @@
 const Pedido = require('../models/PedidoModel');
 const Sabor = require('../models/SaborModel');
-const { imprimirPedido } = require('../services/PedidoService');
+//const { imprimirPedido } = require('../services/PedidoService');
 
 
 // POST
@@ -35,6 +35,7 @@ exports.cadastrarPedido = async (req, res) => {
         await novoPedido.save();
 
         // Tentando imprimir o pedido após salvar
+        /*
         try {
             await imprimirPedido(novoPedido); // Certifique-se de passar o pedido correto para a função de impressão
             req.flash('success', 'Pedido criado e enviado para impressão com sucesso.');
@@ -44,7 +45,18 @@ exports.cadastrarPedido = async (req, res) => {
         }
 
         // Redirecionando para a página inicial ou outra rota desejada
+        res.redirect('/pedidos');*/
+
+        try {
+            await imprimirPedido(novoPedido._id);
+            req.flash('success', 'Pedido criado e enviado para impressão com sucesso.');
+        } catch (printError) {
+            console.error('Erro ao imprimir o pedido:', printError);
+            req.flash('errors', 'Pedido criado, mas ocorreu um erro ao enviar para impressão.');
+        }
+
         res.redirect('/pedidos');
+
     } catch (err) {
         console.error('Erro ao salvar o pedido:', err);
         req.flash('errors', 'Erro ao salvar o pedido.');
@@ -93,22 +105,33 @@ exports.detalharPedido = async (req, res) => {
     }
 };
 
-/**
- * Função para imprimir um pedido.
- * @param {Object} req - Requisição do cliente.
- * @param {Object} res - Resposta ao cliente.
- */
-exports.imprimirPedido = async (req, res) => {
+
+exports.imprimirPedido = async ( req , res ) => {
     try {
-      const pedido = await Pedido.findById(req.params.id);
-      if (!pedido) {
-        return res.status(404).json({ success: false, message: 'Pedido não encontrado' });
-      }
-  
-      await imprimirPedido(pedido); // Chama a função de impressão
-      res.json({ success: true });
+        const pedido = await Pedido.findById(req.params.id);
+        //console.log(req.params.id);
+        if (!pedido) {
+            return res.status(404).json({ success: false, message: 'Pedido não encontrado' });
+        }
+        res.json({ success: true, pedido }); // Retorna os dados do pedido
     } catch (error) {
-      console.error('Erro ao imprimir pedido:', error);
-      res.status(500).json({ success: false, message: 'Erro ao imprimir pedido' });
+        console.error('Erro ao buscar pedido:', error);
+        res.status(500).json({ success: false, message: 'Erro no servidor' });
     }
-  };
+};
+
+
+exports.exibePedido = async ( req, res ) => {
+    try {
+        const pedido = await Pedido.findById(req.params.id);
+        //console.log(req.params.id);
+        if (!pedido) {
+            return res.status(404).send('Pedido não encontrado.');
+        }
+
+        res.render('imprimirPopup', { pedido }); // Renderiza a página de impressão
+    } catch (error) {
+        console.error('Erro ao carregar a página de impressão:', error);
+        res.status(500).send('Erro no servidor.');
+    }
+};

@@ -3,7 +3,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Script carregado e DOM pronto'); // Confirma que o script está carregado e o DOM está pronto
     
-        let pizzaCount = 1; // Contador para pizzas
+        let pizzaCount = 0; // Contador para pizzas
     
         // Função para adicionar uma nova pizza
         function adicionarPizza() {
@@ -16,21 +16,31 @@
     
             pizzaDiv.innerHTML = `
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5>Pizza ${pizzaCount}</h5>
+                    <h5>Pizza ${pizzaCount+1}</h5>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="sabor-esquerda-${pizzaCount}">Sabor (metade esquerda)</label>
-                        <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][saborEsquerda]" placeholder="Escolha o sabor" required>
+                        <select class="form-control" name="sabores[${pizzaCount}][saborEsquerda]" required>
+                            <option value="" disabled selected>Escolha o sabor</option>
+                                <% sabores.forEach(sabor => { %>
+                                    <option value="<%= sabor.nome %>"><%= sabor.nome %></option>
+                                <% }); %>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="sabor-direita-${pizzaCount}">Sabor (metade direita, opcional)</label>
-                        <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][saborDireita]" placeholder="Escolha o sabor (opcional)">
+                        <select class="form-control" name="sabores[${pizzaCount}][saborDireita]" >
+                            <option value="" disabled selected>Escolha o sabor</option>
+                                <% sabores.forEach(sabor => { %>
+                                    <option value="<%= sabor.nome %>"><%= sabor.nome %></option>
+                                <% }); %>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group mt-2">
                     <label for="observacao-${pizzaCount}">Observação</label>
-                    <input type="text" class="form-control" name="sabores[${pizzaCount - 1}][observacao]" placeholder="Observação (opcional)">
+                    <input type="text" class="form-control" name="sabores[${pizzaCount}][observacao]" placeholder="Observação (opcional)">
                 </div>
                 <button type="button" class="btn btn-success btn-sm mt-2 adicionar-pizza" title="Adicionar outra pizza">+</button>
             `;

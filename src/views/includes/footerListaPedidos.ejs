@@ -1,27 +1,40 @@
 <script>
     function imprimirPedido(pedidoId) {
-      fetch(`/pedido/imprimir/${pedidoId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Pedido enviado para impressão!');
-        } else {
-          alert('Erro ao enviar pedido para impressão.');
-        }
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-      });
+    console.log("BOTAO CLICADO:", pedidoId);
+
+    const csrfTokenElement = document.querySelector('input[name="_csrf"]');
+
+    if (!csrfTokenElement) {
+        console.error("Erro: Token CSRF não encontrado!");
+        alert("Erro interno: Token CSRF ausente.");
+        return;
     }
 
+    const csrfToken = csrfTokenElement.value;
+
+    fetch(`/pedido/imprimir/${pedidoId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken  // Incluindo o token CSRF
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.open(`/pedido/imprimir/${pedidoId}`, '_blank', 'width=800,height=600');
+        } else {
+            alert('Erro ao enviar pedido para impressão.');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
+}
+
     document.getElementById('imprimirPedidoBtn').addEventListener('click', function() {
-        const pedidoId = '<%= pedido.pedidoId %>'; // Obtém o ID do pedido da view
-        console.log("BOTAO CLICADO")
+        const pedidoId = '<%= pedido._id %>'; // Obtém o ID do pedido da view
+        console.log("BOTAO CLICADO:", pedidoId)
         imprimirPedido(pedidoId);
     });
 

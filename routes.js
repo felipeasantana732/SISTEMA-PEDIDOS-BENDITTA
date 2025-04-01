@@ -13,7 +13,10 @@ route.post('/pedido/cadastro',pedidoController.cadastrarPedido);
 //listagem de pedidos
 route.get('/pedidos', pedidoController.listarPedidos);
 route.get('/pedido/:id', pedidoController.detalharPedido);
-route.post('/pedido/imprimir/:id', pedidoController.imprimirPedido);
+
+
+route.get('/pedido/imprimir/:id', pedidoController.imprimirPedido);
+route.get('/pedido/imprimir/view/:id', pedidoController.exibePedido);
 
 
 module.exports = route;

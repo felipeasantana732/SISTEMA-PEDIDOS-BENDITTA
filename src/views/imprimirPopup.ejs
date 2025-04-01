@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressão do Pedido</title>
+    <style>
+        @media print {
+            body { 
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 12px;
+                width: 58mm;
+                margin: 0;
+                padding: 5px;
+            }
+            .pedido {
+                text-align: left;
+                border-top: 1px dashed black;
+                border-bottom: 1px dashed black;
+                padding: 5px 0;
+            }
+            h2, h3 {
+                text-align: center;
+                font-size: 14px;
+                margin: 5px 0;
+            }
+            p {
+                margin: 2px 0;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            li {
+                padding: 2px 0;
+            }
+            .btn-print {
+                display: none; /* Ocultar botão na impressão */
+            }
+            .dashed {
+                border-top: 1px dashed black;
+                margin: 5px 0;
+            }
+            .center {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>BENDITTA PIZZA</h2>
+    <div class="dashed"></div>
+
+    <p><strong>Cliente:</strong> <%= pedido.cliente %></p>
+    <p><strong>Telefone:</strong> <%= pedido.telefone %></p>
+    <p><strong>Endereço:</strong> <%= pedido.endereco %></p>
+    <p><strong>Data:</strong> <%= new Date(pedido.data).toLocaleString() %></p>
+
+    <div class="dashed"></div>
+
+    <h3>PEDIDO</h3>
+    <ul>
+        <% pedido.pizzas.forEach((pizza, index) => { %>
+            <li>
+                <strong>Pizza <%= index + 1 %>:</strong> <%= pizza.sabores.map(s => s.sabor).join(', ') %>
+                <% if (pizza.sabores[0].observacao) { %>
+                    <br><small>Obs: <%= pizza.sabores[0].observacao %></small>
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
+
+    <div class="dashed"></div>
+
+
+    <button class="btn-print" onclick="window.print()">Imprimir</button>
+
+</body>
+</html>
